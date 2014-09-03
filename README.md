@@ -94,6 +94,11 @@ Ajay
 
 unquote
 
+#### Robin Schneider's Version
+Robin Schneider has developed a unified version of these scipts with command-line options. 
+I am not able to test & verify his work which can be found here:
+<https://github.com/ypid/lgcommander>
+
 ## This software was developed with inspiration and/or information taken from:
 
 *   <http://python.org>
