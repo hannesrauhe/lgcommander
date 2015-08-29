@@ -106,6 +106,10 @@ unquote
 
 See his [comment](https://github.com/ubaransel/lgcommander/issues/9#issuecomment-135912720) for images.
 
+#### s-e-v-e-n [has commented:](https://github.com/ubaransel/lgcommander/issues/9#issuecomment-135969965)
+Hi there, the mapping from Ajay Ramaswamy didn't work for my 47LM640S-ZA.
+I just tried every number, [here is what i found:](https://github.com/ubaransel/lgcommander/issues/9#issuecomment-135969965)
+
 #### Robin Schneider's Version
 Robin Schneider has developed a unified version of these scipts with command-line options. 
 I am not able to test & verify his work which can be found here:
