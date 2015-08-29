@@ -94,6 +94,17 @@ Ajay
 
 unquote
 
+#### Nikolay Sukharev [has commented:](https://github.com/ubaransel/lgcommander/issues/9#issuecomment-135912720)
+quote
+
+i found undocumented code range 418-470 that has response 200 most of codes displays only message with X except four:
+ 458 - prompt for channel scanning
+ 419,432,445 - set dtv channel 0
+
+unquote
+
+See his [comment](https://github.com/ubaransel/lgcommander/issues/9#issuecomment-135912720) for images 
+
 #### Robin Schneider's Version
 Robin Schneider has developed a unified version of these scipts with command-line options. 
 I am not able to test & verify his work which can be found here:
