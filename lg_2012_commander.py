@@ -5,11 +5,13 @@ import xml.etree.ElementTree as etree
 import socket
 import re
 import sys
+import argparse
+
 lgtv = {}
 
 dialogMsg =""
 headers = {"Content-Type": "application/atom+xml"}
-lgtv["pairingKey"] = "000000"
+lgtv["pairingKey"] = ""
 
 def getip():
     strngtoXmit =   'M-SEARCH * HTTP/1.1' + '\r\n' + \
@@ -79,33 +81,55 @@ def handleCommand(cmdcode):
     conn.request("POST", "/roap/api/command", cmdText, headers=headers)
     httpResponse = conn.getresponse()
 
-
-#main()
-
-lgtv["ipaddress"] = getip()
-theSessionid = getSessionid()
-while theSessionid == "Unauthorized" :
-    getPairingKey()
+def init():
+    lgtv["ipaddress"] = getip()
+    if len(lgtv["pairingKey"])==0:
+        getPairingKey()
     theSessionid = getSessionid()
+    if theSessionid == "Unauthorized" or len(theSessionid) < 8 :
+        sys.exit("Could not get Session Id: " + theSessionid)
+    lgtv["session"] = theSessionid
+    
+def interactive():
+    dialogMsg =""
+    for lgkey in lgtv :
+        dialogMsg += lgkey + ": " + lgtv[lgkey] + "\n"
 
-if len(theSessionid) < 8 : sys.exit("Could not get Session Id: " + theSessionid)
-
-lgtv["session"] = theSessionid
-
-
-dialogMsg =""
-for lgkey in lgtv :
-    dialogMsg += lgkey + ": " + lgtv[lgkey] + "\n"
-
-dialogMsg += "Success in establishing command session\n"
-dialogMsg += "=" * 28 + "\n"
-dialogMsg += "Enter command code i.e. a number between 0 and 1024\n"
-dialogMsg += "Enter a number greater than 1024 to quit.\n"
+    dialogMsg += "Success in establishing command session\n"
+    dialogMsg += "=" * 28 + "\n"
+    dialogMsg += "Enter command code i.e. a number between 0 and 1024\n"
+    dialogMsg += "Enter a number greater than 1024 to quit.\n"
 
 
-result = "91"
-while int(result) < 1024:
-    result = input(dialogMsg)
-    handleCommand(result)
+    result = "91"
+    while int(result) < 1024:
+        result = input(dialogMsg)
+        if int(result) < 1024:
+            handleCommand(result)
 
-sys.exit(0)
+    sys.exit(0)
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--paircode", "-p", help="Pairing Key for TV, will be asked for if not given")
+    parser.add_argument("--code", "-c", help="Code to send")
+    parser.add_argument("--status", "-s", help="Just show On/off", action="store_true")
+    args = parser.parse_args()
+    if args.paircode:
+        lgtv["pairingKey"] = args.paircode
+    if args.status:
+        try:
+            init()
+            print("on")
+        except:
+            print("off")
+        sys.exit(0)
+                  
+    init()
+        
+    if args.code:
+        handleCommand(args.code)
+    else:
+        interactive()
+
+main()
